@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-{% load media %}
+{% load static %}
 <html>
 
     <head>
@@ -7,8 +7,8 @@
     </head>
 
     <body>
-        <h1>Rango says...this is Anton Petrov 2087829's page</h1>        
-		<img src="{% media "/static/rango.jpg" %}" />
+        <h1>This tutorial has been put together by {{student_name}},{{student_number}}</h1>        
+		<img src="{% static "static.jpg" %}" alt="image from static media"/>
     </body>
 
 </html>
