@@ -12,7 +12,13 @@
                 <li><a href="{{ page.url }}">{{ page.title }}</a></li>
                 {% endfor %}
             </ul>
-            <a href="/rango/add_page/{{category_url}}/">Add Page</a>
+			{%if user.is_authenticated %}
+				<!--<a href="/rango/add_page/{{category_url}}/">Add Page</a>-->
+				<a href="/rango/category/{{category_url}}/add_page/">Add Page</a>
+				
+			{%else%}
+				<a href="/rango/">Home</a>
+			{%endif%}
             {% else %}
                 <strong>No pages currently in category.</strong>
             {% endif %}
