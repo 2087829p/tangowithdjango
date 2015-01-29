@@ -1,14 +1,17 @@
 <!DOCTYPE html>
-{% load static %}
 <html>
-
+    {% extends 'rango/base.html' %}
+    {% load static %}
+	{% block title %}About{% endblock %}
+	{% block body_block %}
     <head>
         <title>About</title>
     </head>
 
     <body>
-        <h1>This tutorial has been put together by {{student_name}},{{student_number}}</h1>        
-		<img src="{% static "static.jpg" %}" alt="image from static media"/>
+        <h1>This tutorial has been put together by {{student_name}},{{student_number}}</h1>
+        <h1>Number of visits: {{visits}}</h1>
+		<img src="{% static "static.jpg"%}" alt="image from static media"/>
     </body>
-
+    {%endblock%}
 </html>

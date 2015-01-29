@@ -58,6 +58,8 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'tango_with_django_project.urls'
 LOGIN_URL = '/rango/login/'
 WSGI_APPLICATION = 'tango_with_django_project.wsgi.application'
+SESSION_EXPIRE_AT_BROWSER_CLOSE=True
+
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
