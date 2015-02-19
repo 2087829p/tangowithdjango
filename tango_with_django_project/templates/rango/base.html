@@ -26,6 +26,7 @@
                <ul class="nav pull-right">
                    {% if user.is_authenticated %}
 						<li class="navbar-text">Welcome, {{ user.username }}!</li>
+                        <li><a href="/rango/profile/">View Profile</a></li>
 						<li><a href="/rango/logout/">Logout</a></li>
                    {% else %}
 						<li><a href="/rango/register/">Register</a></li>
@@ -48,6 +49,9 @@
 			<div class="row-fluid">
 				<div class="span3">
 					<div class="well sidebar-nav">
+                        {%if cat_list%}
+                        {% include "rango/category_list.html" %}
+                        {%endif%}
 					<!--- Empty for the timebeing -->
 					</div>
 					<!--/.well -->
@@ -63,7 +67,7 @@
 			</div>
 			<!--/.fluid-container-->
 
-		<hr></hr>
+		<hr/>
 		<footer>
 			<div class="container">
 			<p>&copy; Rango: How to Tango with Django 2013</p>

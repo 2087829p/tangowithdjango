@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div class="row-fluid">
+		<div class="span6">
+		<h2>Top Categories:</h2>
+        {% if cat_list %}
+            <ul>
+                {% for category in cat_list %}
+                <li><a href="/rango/category/{{ category.url }}">{{ category.name }}</a></li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <strong>There are no categories present.</strong>
+        {% endif %}
+		</div>
+		<!--/span-->
+</div>
+</body>
+</html>

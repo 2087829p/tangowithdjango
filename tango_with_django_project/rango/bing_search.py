@@ -64,11 +64,11 @@ def run_query(search_terms):
     # Return the list of results to the calling function.
     return results
 def main():
-	qr=raw_input("Enter your search request:")
-	res=run_query(qr)
-	for i in range(10):
-		print 'rank:' + str(i+1)
-		print 'title: ' + res[i]['title'] 
-		print 'link: ' + res[i]['link'].encode('utf-8') 
-		print '==================================='		
-main()
+    qr=raw_input("Enter your search request:")
+    res=run_query(qr)
+    for i in range(10):
+        print 'rank:' + str(i+1)
+        print 'title: ' + res[i]['title']
+        print 'link: ' + res[i]['link'].encode('utf-8')
+        print '==================================='
+#main()

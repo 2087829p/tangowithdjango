@@ -1,7 +1,7 @@
 from django.http import HttpResponse ,HttpResponseRedirect
 from django.template import RequestContext
 from django.shortcuts import render_to_response
-from rango.models import Category,Page
+from rango.models import Category,Page,UserProfile
 from rango.utils import *
 from rango.forms import CategoryForm,PageForm,UserProfileForm,UserForm
 from django.contrib.auth import authenticate, login ,logout
@@ -9,17 +9,19 @@ from django.contrib.auth.decorators import login_required
 from datetime import datetime
 from rango.bing_search import run_query
 
+def get_category_list():
+    category_list=Category.objects.order_by('-likes')[:5]
+    for category in category_list:
+        category.url = encode_url(category.name)
+    return category_list
+
 def index(request):
     #request.session.set_test_cookie()
 
     context = RequestContext(request)
-    category_list=Category.objects.order_by('-likes')[:5]
-
-    for category in category_list:
-        category.url = encode_url(category.name)
-
+    category_list=get_category_list()
     page_list=Page.objects.order_by('-views')[:5]
-    context_dict = {'categories':category_list,'pages':page_list}
+    context_dict = {'cat_list':category_list,'pages':page_list}
     #### NEW CODE ####
     if request.session.get('last_visit'):
         # The session has a value for the last visit
@@ -48,8 +50,15 @@ def about(request):
 
 def category(request, category_name_url):
     context = RequestContext(request)
+    result_list = []
+    if request.method == 'POST':
+        query = request.POST['query'].strip()
+        if query:
+            # Run our Bing function to get the results list!
+            result_list = run_query(query)
     category_name = decode_url(category_name_url)
-    context_dict = {'category_name': category_name,'category_url':category_name_url}
+    category_list=get_category_list()
+    context_dict = {'category_name': category_name,'category_url':category_name_url,'cat_list':category_list,'result_list':result_list}
     try:
         category = Category.objects.get(name=category_name)
         pages = Page.objects.filter(category=category)
@@ -174,3 +183,22 @@ def search(request):
             # Run our Bing function to get the results list!
             result_list = run_query(query)
     return render_to_response('rango/search.html', {'result_list': result_list}, context)
+
+def profile(request):
+    context=RequestContext(request)
+    #usr=None
+    #if request.user.is_authenticated:
+        #usr=UserProfile.objects.get(user_id=request.user.id)
+    return render_to_response('rango/profile.html',{'user':request.user},context)
+def track_url(request):
+    context=RequestContext(request)
+    page_id=None
+    if request.method == 'GET':
+        if 'page_id' in request.GET:
+            page_id = request.GET['page_id']
+            if page_id:
+                page=Page.objects.get(id=page_id)
+                page.views+=1
+                page.save()
+                return HttpResponseRedirect(page.url)
+    return render_to_response('rango/index.html',context)
