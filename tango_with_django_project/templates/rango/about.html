@@ -9,9 +9,12 @@
     </head>
 
     <body>
-        <h1>This tutorial has been put together by {{student_name}},{{student_number}}</h1>
-        <h1>Number of visits: {{visits}}</h1>
+		<div class="hero-unit">
+		<h1>About Rango</h1>
+        This tutorial has been put together by <strong>{{student_name}},{{student_number}}</strong><br/>
+        Number of visits:<strong> {{visits}}</strong>
 		<img src="{% static "static.jpg"%}" alt="image from static media"/>
+		</div>
     </body>
     {%endblock%}
 </html>

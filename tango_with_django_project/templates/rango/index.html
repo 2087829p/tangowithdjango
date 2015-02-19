@@ -10,13 +10,19 @@
 	{% load static %}
 	{% block title %}Rango{% endblock %}
 	{% block body_block %}
-	
+	<div class="hero-unit">		
 	    {%if user.is_authenticated %}
-			<h1>Rango says... hello {{ user.username }}!</h1>
+			<h1>Rango says... hello {{ user.username }}!</h1>			
+			<p>Find, Add, Share and Rango useful links and resources.</p>
         {% else %}
-			<h1>Rango says...hello world!</h1>
+			<h1>Ready to Rango</h1>
+			<p>Find, Add, Share and Rango useful links and resources.</p>
         {% endif %}
-		<h1>Top Categories:</h1>
+		</div>
+		
+		<div class="row-fluid">
+		<div class="span6">
+		<h2>Top Categories:</h2>
         {% if categories %}
             <ul>
                 {% for category in categories %}
@@ -26,11 +32,14 @@
         {% else %}
             <strong>There are no categories present.</strong>
         {% endif %}
-        <h1>Top Pages:</h1>
+		</div>
+		<!--/span-->
+		<div class="span6">
+        <h2>Top Pages:</h2>
          {% if pages %}
             <ul>
                 {% for page in pages %}
-                <li><a href="{{ page.url }}">{{ page.title }}</a></li>
+                 <li><a href="{{ page.url}}">{{ page.title }}</a> - {{ page.category }} ({{ page.views }} view(s))</li>
                 {% endfor %}
             </ul>
         {% else %}
@@ -45,6 +54,10 @@
 			<a href="/rango/login/">Login</a><br />
 		{% endif %}
 		<a href="/rango/about/">About</a><br/>-->
+		</div>
+		<!--/span-->
+		</div>
+		<!--/row-->
 		{%endblock%}
     </body>
 
