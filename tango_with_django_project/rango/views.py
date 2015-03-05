@@ -48,7 +48,7 @@ def about(request):
     return render_to_response('rango/about.html', context_dict, context)
     #return HttpResponse("Rango says:Here is the about page!")
 
-def category(request, category_name_url):
+def category(request, category_name_slug):
     context = RequestContext(request)
     result_list = []
     if request.method == 'POST':
@@ -56,9 +56,9 @@ def category(request, category_name_url):
         if query:
             # Run our Bing function to get the results list!
             result_list = run_query(query)
-    category_name = decode_url(category_name_url)
+    category_name = decode_url(category_name_slug)
     category_list=get_category_list()
-    context_dict = {'category_name': category_name,'category_url':category_name_url,'cat_list':category_list,'result_list':result_list}
+    context_dict = {'category_name': category_name,'category_url':category_name_slug,'cat_list':category_list,'result_list':result_list}
     try:
         category = Category.objects.get(name=category_name)
         pages = Page.objects.filter(category=category)
@@ -114,52 +114,52 @@ def add_page(request, category_name_url):
              'category_name': category_name, 'form': form},
              context)
 
-def register(request):
-    if request.session.test_cookie_worked():
-        print ">>>> TEST COOKIE WORKED!"
-        request.session.delete_test_cookie()
-    context = RequestContext(request)
-    registered = False
-    if request.method == 'POST':       
-        user_form = UserForm(data=request.POST)
-        profile_form = UserProfileForm(data=request.POST)
-        if user_form.is_valid() and profile_form.is_valid():            
-            user = user_form.save()
-            user.set_password(user.password)
-            user.save()
-            profile = profile_form.save(commit=False)
-            profile.user = user
-            if 'picture' in request.FILES:
-                profile.picture = request.FILES['picture']
-            profile.save()
-            registered = True
-        else:
-            print user_form.errors, profile_form.errors
-    else:
-        user_form = UserForm()
-        profile_form = UserProfileForm()
-    return render_to_response(
-            'rango/register.html',
-            {'user_form': user_form, 'profile_form': profile_form, 'registered': registered},
-            context)
-			
-def user_login(request):    
-    context = RequestContext(request)
-    if request.method == 'POST':       
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(username=username, password=password)
-        if user:            
-            if user.is_active:                
-                login(request, user)
-                return HttpResponseRedirect('/rango/')
-            else:                
-                return HttpResponse("Your Rango account is disabled.")
-        else:
-            print "Invalid login details: {0}, {1}".format(username, password)
-            return HttpResponse("Invalid login details supplied.")
-    else:       
-        return render_to_response('rango/login.html', {}, context)
+##def register(request):
+##    if request.session.test_cookie_worked():
+##        print ">>>> TEST COOKIE WORKED!"
+##        request.session.delete_test_cookie()
+##    context = RequestContext(request)
+##    registered = False
+##    if request.method == 'POST':       
+##        user_form = UserForm(data=request.POST)
+##        profile_form = UserProfileForm(data=request.POST)
+##        if user_form.is_valid() and profile_form.is_valid():            
+##            user = user_form.save()
+##            user.set_password(user.password)
+##            user.save()
+##            profile = profile_form.save(commit=False)
+##            profile.user = user
+##            if 'picture' in request.FILES:
+##                profile.picture = request.FILES['picture']
+##            profile.save()
+##            registered = True
+##        else:
+##            print user_form.errors, profile_form.errors
+##    else:
+##        user_form = UserForm()
+##        profile_form = UserProfileForm()
+##    return render_to_response(
+##            'rango/register.html',
+##            {'user_form': user_form, 'profile_form': profile_form, 'registered': registered},
+##            context)
+##			
+##def user_login(request):    
+##    context = RequestContext(request)
+##    if request.method == 'POST':       
+##        username = request.POST['username']
+##        password = request.POST['password']
+##        user = authenticate(username=username, password=password)
+##        if user:            
+##            if user.is_active:                
+##                login(request, user)
+##                return HttpResponseRedirect('/rango/')
+##            else:                
+##                return HttpResponse("Your Rango account is disabled.")
+##        else:
+##            print "Invalid login details: {0}, {1}".format(username, password)
+##            return HttpResponse("Invalid login details supplied.")
+##    else:       
+##        return render_to_response('rango/login.html', {}, context)
 
 @login_required
 def restricted(request):
@@ -167,12 +167,12 @@ def restricted(request):
     return render_to_response('rango/restricted.html',{}, context)
     #return HttpResponse("Since you're logged in, you can see this text!")
 	
-@login_required
-def user_logout(request):
-    # Since we know the user is logged in, we can now just log them out.
-    logout(request)
-    # Take the user back to the homepage.
-    return HttpResponseRedirect('/rango/')
+##@login_required
+##def user_logout(request):
+##    # Since we know the user is logged in, we can now just log them out.
+##    logout(request)
+##    # Take the user back to the homepage.
+##    return HttpResponseRedirect('/rango/')
 	
 def search(request):
     context = RequestContext(request)

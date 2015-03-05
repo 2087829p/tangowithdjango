@@ -7,6 +7,8 @@ class PageAdmin(admin.ModelAdmin):
 		list_display = ('title', 'category', 'url')
 		def __unicode__(self):
 			return self.list_display
+class CategoryAdmin(admin.ModelAdmin):
+    prepopulated_fields = {'slug':('name',)}
 
 
 admin.site.register(Category)

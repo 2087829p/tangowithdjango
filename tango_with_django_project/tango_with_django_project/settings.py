@@ -43,7 +43,14 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     'django.contrib.admindocs',
     'rango',
+	'registration',
 )
+REGISTRATION_OPEN = True                # If True, users can register
+ACCOUNT_ACTIVATION_DAYS = 7     # One-week activation window; you may, of course, use a different value.
+REGISTRATION_AUTO_LOGIN = True  # If True, the user will be automatically logged in.
+LOGIN_REDIRECT_URL = '/rango/'  # The page you want users to arrive at after they successful log in
+LOGIN_URL = '/accounts/login/'  # The page users are directed to if they are not logged in,
+                                                                # and are trying to access pages requiring authentication
 SITE_ID = 1
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -56,7 +63,6 @@ MIDDLEWARE_CLASSES = (
 )
 
 ROOT_URLCONF = 'tango_with_django_project.urls'
-LOGIN_URL = '/rango/login/'
 WSGI_APPLICATION = 'tango_with_django_project.wsgi.application'
 SESSION_EXPIRE_AT_BROWSER_CLOSE=True
 

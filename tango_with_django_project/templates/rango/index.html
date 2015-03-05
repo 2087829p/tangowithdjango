@@ -26,7 +26,7 @@
         {% if cat_list %}
             <ul>
                 {% for category in cat_list %}
-                <li><a href="/rango/category/{{ category.url }}">{{ category.name }}</a></li>
+                <li><a href="/rango/category/{{ category.slug }}">{{ category.name }}</a></li>
                 {% endfor %}
             </ul>
         {% else %}
